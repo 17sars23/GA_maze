@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		967318EC2108FDB200D71604 /* MazeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967318EB2108FDB200D71604 /* MazeViewController.swift */; };
+		967318EE2108FFD700D71604 /* GAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967318ED2108FFD700D71604 /* GAViewController.swift */; };
+		967318F021092F8B00D71604 /* 08.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 967318EF21092F8B00D71604 /* 08.jpg */; };
+		967318F2210930A100D71604 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 967318F1210930A100D71604 /* 1.png */; };
 		96E87EBB20F8649500920889 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E87EBA20F8649500920889 /* AppDelegate.swift */; };
 		96E87EBD20F8649500920889 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E87EBC20F8649500920889 /* ViewController.swift */; };
 		96E87EC020F8649500920889 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96E87EBE20F8649500920889 /* Main.storyboard */; };
@@ -34,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		967318EB2108FDB200D71604 /* MazeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeViewController.swift; sourceTree = "<group>"; };
+		967318ED2108FFD700D71604 /* GAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAViewController.swift; sourceTree = "<group>"; };
+		967318EF21092F8B00D71604 /* 08.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 08.jpg; sourceTree = SOURCE_ROOT; };
+		967318F1210930A100D71604 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = SOURCE_ROOT; };
 		96E87EB720F8649500920889 /* Maze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96E87EBA20F8649500920889 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		96E87EBC20F8649500920889 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,12 +105,16 @@
 		96E87EB920F8649500920889 /* Maze */ = {
 			isa = PBXGroup;
 			children = (
+				967318F1210930A100D71604 /* 1.png */,
+				967318EF21092F8B00D71604 /* 08.jpg */,
 				96E87EBA20F8649500920889 /* AppDelegate.swift */,
 				96E87EBC20F8649500920889 /* ViewController.swift */,
 				96E87EBE20F8649500920889 /* Main.storyboard */,
 				96E87EC120F8649500920889 /* Assets.xcassets */,
 				96E87EC320F8649500920889 /* LaunchScreen.storyboard */,
 				96E87EC620F8649500920889 /* Info.plist */,
+				967318EB2108FDB200D71604 /* MazeViewController.swift */,
+				967318ED2108FFD700D71604 /* GAViewController.swift */,
 			);
 			path = Maze;
 			sourceTree = "<group>";
@@ -232,7 +244,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				967318F2210930A100D71604 /* 1.png in Resources */,
 				96E87EC520F8649500920889 /* LaunchScreen.storyboard in Resources */,
+				967318F021092F8B00D71604 /* 08.jpg in Resources */,
 				96E87EC220F8649500920889 /* Assets.xcassets in Resources */,
 				96E87EC020F8649500920889 /* Main.storyboard in Resources */,
 			);
@@ -259,8 +273,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				967318EE2108FFD700D71604 /* GAViewController.swift in Sources */,
 				96E87EBD20F8649500920889 /* ViewController.swift in Sources */,
 				96E87EBB20F8649500920889 /* AppDelegate.swift in Sources */,
+				967318EC2108FDB200D71604 /* MazeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

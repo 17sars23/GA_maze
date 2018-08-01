@@ -9,14 +9,14 @@
 import UIKit
 import CoreMotion
 
-class ViewController: UIViewController {
+class MazeViewController: UIViewController {
+    // UserDefaults のインスタンス
+    let userDefaults = UserDefaults.standard
+    
     //player
     var playerView: UIView!
     var startView: UIView!
     var goalView: UIView!
-    var playerMotionManager: CMMotionManager!
-    var speedX: Double = 0.0
-    var speedY: Double = 0.0
     
     //Screen size
     let screenSize = UIScreen.main.bounds.size
@@ -37,7 +37,8 @@ class ViewController: UIViewController {
     
     //wall
     var wallRectArray = [CGRect]()
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //------------------------
@@ -79,17 +80,19 @@ class ViewController: UIViewController {
         playerView.backgroundColor = UIColor.gray
         self.view.addSubview(playerView)
         
-        playerMotionManager = CMMotionManager()
-        playerMotionManager.accelerometerUpdateInterval = 0.04
+        var check_array = [Int]()
+        check_array = userDefaults.object(forKey: "DataStore") as! [Int]
+        print(check_array)
         
-        self.startAccelerometer()
+        estimate(tmp: check_array)
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     //------------------------
     // Additional function
     //------------------------
@@ -102,80 +105,35 @@ class ViewController: UIViewController {
         
         return view
     }
+    
+    func estimate(tmp:[Int]){
+        
+    }
+    
+    func Wall(x:Int, y:Int) -> Int{
+        var w = 0
+        
+        if x<0 || y<0 || 9<x || 5<y {
+            w = 0
+        }else if maze[x][y] == 1 {
+            w = 0
+        }else if maze[x][y] == 0 || maze[x][y] == 2{
+            w = 1
+        }else if maze[x][y] == 3 {
+            w = 2
+            print(goalView.center)
+        }
+        return w
+    }
+    
+    func draw(_ rect: CGRect, x1:Int, y1:Int, x2:Int, y2:Int) {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: x1, y: y1))
+        path.addLine(to: CGPoint(x: x2, y: y2))
+        path.lineWidth = 5.0 // 線の太さ
+        UIColor.brown.setStroke() // 色をセット
+        path.stroke()
+    }
+    
 
-    func startAccelerometer(){
-        let handler: CMAccelerometerHandler = {(CMAccelerometerData:CMAccelerometerData?, error:Error?) ->
-            Void in
-            self.speedX += CMAccelerometerData!.acceleration.x/2
-            self.speedY -= CMAccelerometerData!.acceleration.y/2
-            
-            var posX = self.playerView.center.x + (CGFloat(self.speedX)/3)
-            var posY = self.playerView.center.y + (CGFloat(self.speedY)/3)
-            
-            if posX <= self.playerView.frame.width/2 {
-                self.speedX = 0
-                posX = self.playerView.frame.width/2
-            }
-            if posY <= self.playerView.frame.height/2 {
-                self.speedY = 0
-                posY = self.playerView.frame.height/2
-            }
-            if posX >= self.screenSize.width - (self.playerView.frame.width/2) {
-                self.speedX = 0
-                posX = self.screenSize.width - (self.playerView.frame.width/2)
-            }
-            if posY >= self.screenSize.height - (self.playerView.frame.height/2) {
-                self.speedY = 0
-                posY = self.screenSize.height - (self.playerView.frame.height/2)
-            }
-            
-            for wallRect in self.wallRectArray {
-                if wallRect.intersects(self.playerView.frame) {
-                    self.gameCheck(result: "Game over", message: "壁に当たったで")
-                    //print("Gameover")
-                    return
-                }
-                
-                if self.goalView.frame.intersects(self.playerView.frame) {
-                    self.gameCheck(result: "Clear", message: "クリアしたで")
-                    return
-                }
-            }
-            self.playerView.center = CGPoint(x: posX, y: posY)
-        }
-        playerMotionManager.startAccelerometerUpdates(to:OperationQueue.main, withHandler:handler)
-    }
-    
-    func gameCheck(result: String, message: String){
-        if playerMotionManager.isAccelerometerActive {
-            playerMotionManager.stopAccelerometerUpdates()
-        }
-        
-        let gameCheckAlert: UIAlertController = UIAlertController(title: result, message: message, preferredStyle: .alert)
-        
-        let retryAction = UIAlertAction(title: "retry", style: .default, handler: {
-            (action: UIAlertAction!) -> Void in
-            self.retry()
-        })
-        
-        gameCheckAlert.addAction(retryAction)
-        self.present(gameCheckAlert, animated: true, completion: nil)
-    }
-    
-    func retry(){
-        playerView.center = startView.center
-        
-        if !playerMotionManager.isAccelerometerActive{
-            self.startAccelerometer()
-        }
-        
-        speedX = 0.0
-        speedY = 0.0
-    }
 }
-
-
-
-
-
-
