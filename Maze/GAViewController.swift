@@ -50,7 +50,7 @@ class GAViewController: UIViewController {
             ga_Array.append(a)
         }
         print(ga_Array)
-        Label.text = "第1世代の遺伝子たちができました"
+        Label.text = "第1世代"
         
         //遺伝子レベルの計算
         for k in 0..<ga_num{
@@ -71,7 +71,11 @@ class GAViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func make_GA(){
+    @IBAction func make_one_GA() {
+        make_GA()
+    }
+    
+    func make_GA(){
         var Ereat_Array = [[Int]]()
         var NextE = [[Int]]()
         
@@ -154,7 +158,7 @@ class GAViewController: UIViewController {
         }
         
         count += 1
-        Label.text = "第" + String(count) + "世代の遺伝子たちができました"
+        Label.text = "第" + String(count) + "世代"
         
         //遺伝子レベルの計算
         pawer.removeAll()
@@ -169,14 +173,28 @@ class GAViewController: UIViewController {
         print("check:",pawer,pawer.max()! ,i_max!)
         userDefaults.set(ga_Array[i_max!], forKey: "DataStore")
         
-       
     }
     
+    @IBAction func final(){
+        var check_pawer = pawer.max()!
+        
+        while(check_pawer < 20){
+            make_GA()
+            Label.text = "第" + String(count) + "世代"
+            idenshi.text = "遺伝子レベル：" + String(pawer.max()!)
+            check_pawer = pawer.max()!
+            RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.0001))
+            if check_pawer > 20{
+                break
+            }
+        }
+    }
     
     func estimate(tmp:[Int]) -> Int{
         var pw = 0
         var x = 0
         var y = 0
+        var path_array = [[Int]]()
         
         for i in tmp{
             switch i{
@@ -196,7 +214,13 @@ class GAViewController: UIViewController {
             if ans == 0{
                 break
             }else if ans == 1{
-                pw += 1
+                if path_array.index(of: [x,y]) == nil{
+                    pw += 1
+                    path_array.append([x,y])
+                }else{
+                    pw -= 3
+                    break
+                }
             }else{
                 pw += 50
                 break
@@ -225,4 +249,5 @@ class GAViewController: UIViewController {
         print("save:",ga_Array[i_max!])
     }
 
+    
 }

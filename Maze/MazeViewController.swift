@@ -84,7 +84,10 @@ class MazeViewController: UIViewController {
         check_array = userDefaults.object(forKey: "DataStore") as! [Int]
         print(check_array)
         
-        estimate(tmp: check_array)
+        estimate(tmp: check_array, width: cellWidth, height: cellHeight, offsetX: cellOffsetX, offsetY: cellOffsetY)
+        
+        var timer: Timer!
+        timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeView),userInfo: nil, repeats: false)
         
     }
     
@@ -96,6 +99,10 @@ class MazeViewController: UIViewController {
     //------------------------
     // Additional function
     //------------------------
+    @objc func changeView() {
+        self.performSegue(withIdentifier: "toBack", sender: nil)
+    }
+    
     func creatView(x: Int, y: Int, width:CGFloat, height:CGFloat, offsetX:CGFloat, offsetY:CGFloat) -> UIView {
         let rect = CGRect(x:0, y:0, width:width, height:height)
         let view = UIView(frame: rect)
@@ -106,7 +113,39 @@ class MazeViewController: UIViewController {
         return view
     }
     
-    func estimate(tmp:[Int]){
+    func estimate(tmp:[Int], width:CGFloat, height:CGFloat, offsetX:CGFloat, offsetY:CGFloat){
+        let draw : Draw = Draw(frame:CGRect(x:0,y:0,width:screenSize.width,height:screenSize.height))
+        var x = 0, x_pre = 0, x_now = 0
+        var y = 0, y_pre = 0, y_now = 0
+        
+        for i in tmp{
+            x_pre = x
+            y_pre = y
+            x_pre = Int(offsetX + width * CGFloat(x_pre))
+            y_pre = Int(offsetY + height * CGFloat(y_pre))
+            //let p1 = CGPoint(x: CGFloat(offsetX + width * CGFloat(x_pre)), y: CGFloat(offsetY + height * CGFloat(y_pre)))
+
+            switch i{
+            case 0:
+                y -= 1
+            case 1:
+                x += 1
+            case 2:
+                y += 1
+            case 3:
+                x -= 1
+            default:
+                break
+            }
+            
+            let ans = Wall(x: y, y: x)
+            while(ans == 2){
+                //width: cellWidth, height: cellHeight, offsetX: cellOffsetX, offsetY: cellOffsetY
+                x_now = Int(offsetX + width * CGFloat(x))
+                y_now = Int(offsetY + height * CGFloat(y))
+                draw.setRect(x1: x_pre, y1: y_pre, x2: x_now, y2: y_now)
+            }
+        }
         
     }
     
@@ -121,19 +160,12 @@ class MazeViewController: UIViewController {
             w = 1
         }else if maze[x][y] == 3 {
             w = 2
-            print(goalView.center)
+            //print(goalView.center)
         }
         return w
     }
     
-    func draw(_ rect: CGRect, x1:Int, y1:Int, x2:Int, y2:Int) {
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: x1, y: y1))
-        path.addLine(to: CGPoint(x: x2, y: y2))
-        path.lineWidth = 5.0 // 線の太さ
-        UIColor.brown.setStroke() // 色をセット
-        path.stroke()
-    }
+    
     
 
 }
